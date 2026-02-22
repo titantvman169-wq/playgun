@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayGun — Multiplayer Shooter</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="game-container">
+    <header class="hud">
+      <div class="hud-left">
+        <span class="label">SCORE</span>
+        <span id="score">0</span>
+        <span class="hud-sep">|</span>
+        <span class="label">BEST</span>
+        <span id="high-score">0</span>
+        <span class="hud-sep">|</span>
+        <span id="combo-box" class="combo-box hidden"><span class="label">COMBO</span><span id="combo">0</span></span>
+      </div>
+      <div class="hud-center">
+        <span class="label">WAVE</span>
+        <span id="wave">1</span>
+        <span class="hud-sep">|</span>
+        <span class="label">WEAPON</span>
+        <span id="weapon-name">Pistol</span>
+      </div>
+      <div class="hud-right">
+        <span class="label">SHIELD</span>
+        <div class="shield-bar">
+          <div id="shield-fill" class="shield-fill"></div>
+        </div>
+        <span class="label">HP</span>
+        <div class="health-bar">
+          <div id="health-fill" class="health-fill"></div>
+        </div>
+        <span id="health-text">100</span>
+      </div>
+    </header>
+
+    <canvas id="game-canvas"></canvas>
+
+    <!-- Start: Solo / Create Room / Join Room -->
+    <div id="start-screen">
+      <h1>NEON SHOOTER</h1>
+      <p class="tagline">Multiplayer · Agent Select</p>
+      <p class="best-run">Best: <span id="start-high-score">0</span></p>
+      <div class="start-actions">
+        <button id="btn-solo" class="btn-primary">PLAY SOLO</button>
+        <div id="multiplayer-section" class="hidden">
+          <button id="btn-create" class="btn-secondary">CREATE ROOM</button>
+          <div class="join-row">
+            <input type="text" id="room-code-input" placeholder="Room code" maxlength="6">
+            <button id="btn-join" class="btn-secondary">JOIN</button>
+          </div>
+        </div>
+        <button id="btn-toggle-multi" class="btn-link">Multiplayer (Supabase)</button>
+      </div>
+      <ul class="controls">
+        <li><kbd>W A S D</kbd> — Move · <kbd>Mouse</kbd> — Aim · <kbd>Click</kbd> / <kbd>Space</kbd> — Shoot</li>
+        <li><kbd>E</kbd> <kbd>Q</kbd> <kbd>R</kbd> — Agent abilities · <kbd>1–4</kbd> — Weapon</li>
+      </ul>
+    </div>
+
+    <!-- Lobby: room code, players, Start (host only) -->
+    <div id="lobby-screen" class="overlay hidden">
+      <h2>LOBBY</h2>
+      <p class="room-code">Room: <strong id="lobby-room-code">------</strong></p>
+      <p class="room-hint">Share the code with friends</p>
+      <ul id="lobby-players" class="lobby-players"></ul>
+      <button id="btn-start-game" class="btn-primary hidden">START GAME</button>
+      <button id="btn-leave-lobby" class="btn-link">Leave</button>
+    </div>
+
+    <!-- Valorant-style Agent Select -->
+    <div id="agent-select-screen" class="overlay hidden">
+      <h2>SELECT YOUR AGENT</h2>
+      <div class="agent-select-timer">
+        <span class="label">TIME</span>
+        <span id="agent-timer">15</span>
+      </div>
+      <div id="agent-grid" class="agent-grid"></div>
+      <div class="agent-select-footer">
+        <div id="agent-picks" class="agent-picks"></div>
+        <button id="btn-lock-in" class="btn-primary" disabled>LOCK IN</button>
+      </div>
+    </div>
+
+    <div id="upgrade-screen" class="hidden">
+      <h2>WAVE CLEARED</h2>
+      <p class="upgrade-prompt">Choose an upgrade</p>
+      <div id="upgrade-choices" class="upgrade-choices"></div>
+    </div>
+
+    <div id="boss-warning" class="hidden">
+      <span>⚠ BOSS INCOMING ⚠</span>
+    </div>
+
+    <div id="game-over-screen" class="hidden">
+      <h2>GAME OVER</h2>
+      <p>Wave <span id="final-wave">1</span> · Score: <span id="final-score">0</span></p>
+      <p class="best-run">Best: <span id="gameover-high-score">0</span></p>
+      <button id="restart-btn">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.example.js"></script>
+  <script src="config.js"></script>
+  <script src="agents.js"></script>
+  <script src="multiplayer.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
